@@ -15,7 +15,8 @@ import java.util.Vector;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class Slide {
+public class Slide extends PresentationElement {
+	
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	/* Geen String meer maar een TextItem */
