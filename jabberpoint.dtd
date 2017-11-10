@@ -3,9 +3,11 @@
  $Id$
  -->
 <!ELEMENT showtitle (#PCDATA)>
-<!ELEMENT presentation (showtitle,slide+)>
+<!ELEMENT presentation (showtitle,slide+,thread+)>
 <!ELEMENT title (#PCDATA)>
 <!ELEMENT slide (title, item*)>
 <!ELEMENT item (#PCDATA)>
 <!ATTLIST item kind CDATA #REQUIRED>
 <!ATTLIST item level CDATA #REQUIRED>
+<!ELEMENT thread (slidenumber+)>
+<!ELEMENT slidenumber (#PCDATA)>
