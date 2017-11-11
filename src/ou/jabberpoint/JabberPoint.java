@@ -2,10 +2,10 @@ package ou.jabberpoint;
 
 import javax.swing.JOptionPane;
 
-import ou.jabberpoint.model.Accessor;
-import ou.jabberpoint.model.Presentation;
-import ou.jabberpoint.model.Style;
-import ou.jabberpoint.model.XMLAccessor;
+import ou.jabberpoint.model.access.Accessor;
+import ou.jabberpoint.model.access.XMLAccessor;
+import ou.jabberpoint.model.presentation.Presentation;
+import ou.jabberpoint.model.presentation.Style;
 import ou.jabberpoint.view.SlideViewerFrame;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class JabberPoint {
 		
 		Style.createStyles();
 		Presentation presentation = new Presentation();
-		new SlideViewerFrame(JABVERSION, presentation);
+		new SlideViewerFrame(JABVERSION, presentation);		
 		try {
 			if (argv.length == 0) { // een demo presentatie
 				Accessor.getDemoAccessor().loadFile(presentation, "");
@@ -42,6 +42,7 @@ public class JabberPoint {
 				new XMLAccessor().loadFile(presentation, argv[0]);
 			}
 			presentation.setSlideNumber(0);
+		
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(null,
 					IOERR + ex, JABERR,

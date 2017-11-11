@@ -1,4 +1,4 @@
-package ou.jabberpoint.model;
+package ou.jabberpoint.model.presentation;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -25,13 +25,4 @@ public abstract class PresentationItem {
 		
 	}
 
-	public void add(PresentationItem element)
-	{
-		
-	}
-	
-	public void remove(PresentationItem element)
-	{
-		
-	}
 }

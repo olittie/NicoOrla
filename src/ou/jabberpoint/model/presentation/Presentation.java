@@ -1,4 +1,4 @@
-package ou.jabberpoint.model;
+package ou.jabberpoint.model.presentation;
 
 import java.util.ArrayList;
 
@@ -19,31 +19,30 @@ import ou.jabberpoint.view.SlideViewerComponent;
 
 public class Presentation {
 	private String showTitle; // de titel van de presentatie
-	//private ArrayList<Slide> showList = null; // een ArrayList met de Slides
 	private ArrayList<PresentationItem> showList = null; // een ArrayList met de Slides
-	private int currentSlideNumber = 0; // het slidenummer van de huidige Slide
-	
+
 	// Gebruik van Iterators om verschillende threads te doorlopen
-	// Elke tread bevat zijn eigen slidenummers
-	private ArrayList<SlideIterator> slideIters = new ArrayList<SlideIterator>();
+	// Elke thread bevat zijn eigen slidenummers
+	private ArrayList<SlideIterator> slideIters = null;
+	// Huidige tread iterator
 	private SlideIterator currentSlideIter;
-	
 	private SlideViewerComponent slideViewComponent = null; // de viewcomponent voor de Slides
 
 	public Presentation() {
 		slideViewComponent = null;
+		this.slideIters = new ArrayList<SlideIterator>();
 		clear();
 	}
 
 	public Presentation(SlideViewerComponent slideViewerComponent) {
 		this.slideViewComponent = slideViewerComponent;
+		this.slideIters = new ArrayList<SlideIterator>();
 		clear();
 	}
 
-	public void setSlideIterator(SlideIterator si)
+	public void addSlideIterator(SlideIterator si)
 	{
 		// TODO
-		si.setSlides(showList);
 		slideIters.add(si);
 	}
 
@@ -57,10 +56,6 @@ public class Presentation {
 	{
 		// TODO
 		return currentSlideIter;
-	}
-	
-	public int getSize() {
-		return showList.size();
 	}
 
 	public String getTitle() {
@@ -77,12 +72,20 @@ public class Presentation {
 
 	// geef het nummer van de huidige slide
 	public int getSlideNumber() {
-		return currentSlideNumber;
+		
+		if (currentSlideIter != null)
+		{
+			return currentSlideIter.getCurrentSlideNumber();
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
 	// verander het huidige-slide-nummer en laat het aan het window weten.
 	public void setSlideNumber(int number) {
-		currentSlideNumber = number;
+		currentSlideIter.setCurrentSlideNumber(number);
 		if (slideViewComponent != null) {
 			slideViewComponent.update(this, getCurrentSlide());
 		}
@@ -90,24 +93,28 @@ public class Presentation {
 
 	// ga naar de vorige slide tenzij je aan het begin van de presentatie bent
 	public void prevSlide() {
-		if (currentSlideNumber > 0) {
-			setSlideNumber(currentSlideNumber - 1);
-	    }
+		currentSlideIter.prevSlide();
+		if (slideViewComponent != null) {
+			slideViewComponent.update(this, getCurrentSlide());
+		}
 	}
 
 	// Ga naar de volgende slide tenzij je aan het einde van de presentatie bent.
 	public void nextSlide() {
-		if (currentSlideNumber < (showList.size()-1)) {
-			setSlideNumber(currentSlideNumber + 1);
+		currentSlideIter.nextSlide();
+		if (slideViewComponent != null) {
+			slideViewComponent.update(this, getCurrentSlide());
 		}
 	}
-
+	
 	// Verwijder de presentatie, om klaar te zijn voor de volgende
 	public void clear() {
 		
-		//showList = new ArrayList<Slide>();
 		showList = new ArrayList<PresentationItem>();
-		setSlideNumber(-1);
+		if (currentSlideIter != null)
+		{
+			currentSlideIter.setCurrentSlideNumber(-1);
+		}
 	}
 
 	// Voeg een slide toe aan de presentatie
@@ -117,18 +124,23 @@ public class Presentation {
 
 	// Geef een slide met een bepaald slidenummer
 	public Slide getSlide(int number) {
-		if (number < 0 || number >= getSize()){
+		if (number < 0 ) // || number >= currentSlideIter.getSize())
+		{
 			return null;
 	    }
+		else
+		{
 			return (Slide)showList.get(number);
+		}
 	}
 
 	// Geef de huidige Slide
 	public Slide getCurrentSlide() {
-		return getSlide(currentSlideNumber);
+		return getSlide(currentSlideIter.getCurrentSlideNumber());
 	}
-			
+
 	public void exit(int n) {
 		System.exit(n);
 	}
+
 }

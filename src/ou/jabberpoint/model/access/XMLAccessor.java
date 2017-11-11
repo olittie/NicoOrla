@@ -1,4 +1,4 @@
-package ou.jabberpoint.model;
+package ou.jabberpoint.model.access;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -12,6 +12,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
+
+import ou.jabberpoint.model.presentation.BitmapItem;
+import ou.jabberpoint.model.presentation.Presentation;
+import ou.jabberpoint.model.presentation.Slide;
+import ou.jabberpoint.model.presentation.SlideItem;
+import ou.jabberpoint.model.presentation.SlideIterator;
+import ou.jabberpoint.model.presentation.TextItem;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -98,8 +106,8 @@ public class XMLAccessor extends Accessor {
 					numbers.add(new Integer(item.getTextContent()));
 				}
 				// TODO slides
-				SlideIterator si = new SlideIterator(null, numbers);
-				presentation.setSlideIterator(si);
+				SlideIterator si = new SlideIterator(numbers);
+				presentation.addSlideIterator(si);
 			}
 			
 			// TODO
@@ -152,7 +160,7 @@ public class XMLAccessor extends Accessor {
 		out.print("<showtitle>");
 		out.print(presentation.getTitle());
 		out.println("</showtitle>");
-		for (int slideNumber=0; slideNumber<presentation.getSize(); slideNumber++) {
+		for (int slideNumber=0; slideNumber<presentation.getCurrentSlideIterator().getSize(); slideNumber++) {
 			Slide slide = presentation.getSlide(slideNumber);
 			out.println("<slide>");
 			out.println("<title>" + slide.getTitle() + "</title>");

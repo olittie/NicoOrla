@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 import ou.jabberpoint.controller.KeyController;
 import ou.jabberpoint.controller.MenuController;
-import ou.jabberpoint.model.Presentation;
+import ou.jabberpoint.model.presentation.Presentation;
 
 /**
  * <p>Het applicatiewindow voor een slideviewcomponent</p>
