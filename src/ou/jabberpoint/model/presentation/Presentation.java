@@ -24,7 +24,7 @@ public class Presentation {
 	// Gebruik van Iterators om verschillende threads te doorlopen
 	// Elke thread bevat zijn eigen slidenummers
 	private ArrayList<SlideIterator> slideIters = null;
-	// Huidige tread iterator
+	// Huidige thread iterator
 	private SlideIterator currentSlideIter;
 	private SlideViewerComponent slideViewComponent = null; // de viewcomponent voor de Slides
 

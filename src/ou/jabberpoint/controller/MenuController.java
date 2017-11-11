@@ -39,7 +39,7 @@ public class MenuController extends MenuBar {
 	protected static final String NEW = "New";
 	protected static final String NEXT = "Next";
 	protected static final String OPEN = "Open";
-	protected static final String PAGENR = "Page number?";
+	protected static final String SLIDENR = "Slide number?";
 	protected static final String PREV = "Prev";
 	protected static final String SAVE = "Save";
 	protected static final String VIEW = "View";
@@ -114,7 +114,7 @@ public class MenuController extends MenuBar {
 		viewMenu.add(menuItem = mkMenuItem(GOTO));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				String pageNumberStr = JOptionPane.showInputDialog((Object)PAGENR);
+				String pageNumberStr = JOptionPane.showInputDialog((Object)SLIDENR);
 				int pageNumber = Integer.parseInt(pageNumberStr);
 				presentation.setSlideNumber(pageNumber - 1);
 			}

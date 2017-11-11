@@ -30,11 +30,24 @@ public class SlideIterator extends PresentationIterator {
 	// geef huidige Slidenummer
 	public void setCurrentSlideNumber(int slideNumber)
 	{
-		this.currentSlideNumber = slideNumber;
+		boolean found = false;
+		for (int i = 0; (i < getSize()) && (found == false) ; i++)
+		{
+			if (threadNumbers.get(i) == slideNumber)
+			{
+				index = i;
+				currentSlideNumber = threadNumbers.get(index);
+				found = true;
+			}
+		}
 	}
 	
 	public int getSize() {
 		return this.threadNumbers.size();
+	}
+	
+	public int getIndex() {
+		return this.index;
 	}
 	
 	// ga naar de eerste slide
