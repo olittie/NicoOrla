@@ -1,5 +1,6 @@
 package ou.jabberpoint.model;
 
+import java.util.ArrayList;
 import java.util.Vector;
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +42,8 @@ public class XMLAccessor extends Accessor {
     protected static final String KIND = "kind";
     protected static final String TEXT = "text";
     protected static final String IMAGE = "image";
+    protected static final String THREAD = "thread";
+    protected static final String SLIDENUMBER = "slidenumber";
     
     /** tekst van messages */
     protected static final String PCE = "Parser Configuration Exception";
@@ -55,7 +58,8 @@ public class XMLAccessor extends Accessor {
     }
 
 	public void loadFile(Presentation presentation, String filename) throws IOException {
-		int slideNumber, itemNumber, max = 0, maxItems = 0;
+		int slideNumber, itemNumber, max = 0, maxItems = 0;		
+		
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();    
 			Document document = builder.parse(new File(filename)); // maak een JDOM document
@@ -77,6 +81,30 @@ public class XMLAccessor extends Accessor {
 					loadSlideItem(slide, item);
 				}
 			}
+			
+			
+			// Toevoeging van threads iterators	
+			NodeList threads = doc.getElementsByTagName(THREAD);
+			max = threads.getLength();
+			for (int threadNumber = 0; threadNumber < max; threadNumber++) {
+				
+				ArrayList<Integer> numbers = new ArrayList<Integer>();
+				
+				Element xmlThread = (Element) threads.item(threadNumber);
+				NodeList threadSlideNumbers = xmlThread.getElementsByTagName(SLIDENUMBER);
+				maxItems = threadSlideNumbers.getLength();
+				for (itemNumber = 0; itemNumber < maxItems; itemNumber++) {
+					Element item = (Element) threadSlideNumbers.item(itemNumber);
+					numbers.add(new Integer(item.getTextContent()));
+				}
+				// TODO slides
+				SlideIterator si = new SlideIterator(null, numbers);
+				presentation.setSlideIterator(si);
+			}
+			
+			// TODO
+			presentation.setCurrentSlideIterator(1);
+
 		} 
 		catch (IOException iox) {
 			System.err.println(iox.toString());

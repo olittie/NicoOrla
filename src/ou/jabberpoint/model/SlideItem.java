@@ -15,7 +15,7 @@ import java.awt.image.ImageObserver;
  * @version 1.6 2014/05/16 Sylvia Stuurman
 */
 
-public abstract class SlideItem extends PresentationElement {
+public abstract class SlideItem extends PresentationItem {
 	private int level = 0; // het level van het slideitem
 
 	public SlideItem(int lev) {

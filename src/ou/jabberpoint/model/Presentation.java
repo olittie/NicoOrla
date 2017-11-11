@@ -19,8 +19,15 @@ import ou.jabberpoint.view.SlideViewerComponent;
 
 public class Presentation {
 	private String showTitle; // de titel van de presentatie
-	private ArrayList<Slide> showList = null; // een ArrayList met de Slides
+	//private ArrayList<Slide> showList = null; // een ArrayList met de Slides
+	private ArrayList<PresentationItem> showList = null; // een ArrayList met de Slides
 	private int currentSlideNumber = 0; // het slidenummer van de huidige Slide
+	
+	// Gebruik van Iterators om verschillende threads te doorlopen
+	// Elke tread bevat zijn eigen slidenummers
+	private ArrayList<SlideIterator> slideIters = new ArrayList<SlideIterator>();
+	private SlideIterator currentSlideIter;
+	
 	private SlideViewerComponent slideViewComponent = null; // de viewcomponent voor de Slides
 
 	public Presentation() {
@@ -33,6 +40,25 @@ public class Presentation {
 		clear();
 	}
 
+	public void setSlideIterator(SlideIterator si)
+	{
+		// TODO
+		si.setSlides(showList);
+		slideIters.add(si);
+	}
+
+	public void setCurrentSlideIterator(int i)
+	{
+		// TODO
+		currentSlideIter = slideIters.get(i);
+	}
+
+	public SlideIterator getCurrentSlideIterator()
+	{
+		// TODO
+		return currentSlideIter;
+	}
+	
 	public int getSize() {
 		return showList.size();
 	}
@@ -78,7 +104,9 @@ public class Presentation {
 
 	// Verwijder de presentatie, om klaar te zijn voor de volgende
 	public void clear() {
-		showList = new ArrayList<Slide>();
+		
+		//showList = new ArrayList<Slide>();
+		showList = new ArrayList<PresentationItem>();
 		setSlideNumber(-1);
 	}
 
@@ -99,7 +127,7 @@ public class Presentation {
 	public Slide getCurrentSlide() {
 		return getSlide(currentSlideNumber);
 	}
-
+			
 	public void exit(int n) {
 		System.exit(n);
 	}
