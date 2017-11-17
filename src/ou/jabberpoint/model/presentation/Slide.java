@@ -15,39 +15,44 @@ import java.util.Vector;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class Slide extends PresentationItem {
+public class Slide implements PresentationItem {
 	
-	public final static int WIDTH = 1200;
-	public final static int HEIGHT = 800;
-	/* Geen String meer maar een TextItem */
-	protected TextItem title; // de titel wordt apart bewaard
-	protected Vector<SlideItem> items; // de slide-items worden in een Vector bewaard
+	/* Geen String meer maar een TextItem TODO */
+	protected String title; // de titel wordt apart bewaard
+	protected Vector<PresentationItem> items; // de slide-items worden in een Vector bewaard
 
 	public Slide() {
-		items = new Vector<SlideItem>();
+		items = new Vector<PresentationItem>();
 	}
 
+	public Slide(String title) {
+		items = new Vector<PresentationItem>();
+		this.title = title;
+	}
+	
 	// Voeg een SlideItem toe
-	public void append(SlideItem anItem) {
+	public void append(PresentationItem anItem) {
 		items.addElement(anItem);
 	}
 
 	// geef de titel van de slide
 	public String getTitle() {
 		/* Geef nu de tekst van het TextItem terug */
-		return title.getText();
+		return title;
 	}
 
+	@Override
+	public int getYPosHeight() {
+		// TODO Auto-generated method stub
+		return 20;
+	}
+	
 	// verander de titel van de slide
 	public void setTitle(String newTitle) {
 		/* Creëer nu een TextItem op basis van de nieuwe titel */
-		title = new TextItem(0, newTitle);
+		title = newTitle;
 	}
 
-	// Maak een TextItem van String, en voeg het TextItem toe
-	public void append(int level, String message) {
-		append(new TextItem(level, message));
-	}
 
 	// geef het betreffende SlideItem
 	public SlideItem getSlideItem(int number) {
@@ -55,7 +60,7 @@ public class Slide extends PresentationItem {
 	}
 
 	// geef alle SlideItems in een Vector
-	public Vector<SlideItem> getSlideItems() {
+	public Vector<PresentationItem> getSlideItems() {
 		return items;
 	}
 
@@ -65,23 +70,18 @@ public class Slide extends PresentationItem {
 	}
 
 	public void draw(Graphics g, Rectangle area, ImageObserver view) {
-		float scale = getScale(area);
-	    int y = area.y;
+		
 		/* De titel hoeft niet meer apart behandeld te worden */
-	    SlideItem slideItem = this.title;
-	    Style style = Style.getStyle(slideItem.getLevel());
-	    slideItem.draw(area.x, y, scale, g, style, view);
-	    y += slideItem.getBoundingBox(g, view, scale, style).height;
+	    PresentationItem slideItem = new TextItemAdapter(0, this.title);
+	    slideItem.draw(g, area, view);
+	    area.y += slideItem.getYPosHeight();
+	    
 	    for (int number=0; number<getSize(); number++) {
-	      slideItem = (SlideItem)getSlideItems().elementAt(number);
-	      style = Style.getStyle(slideItem.getLevel());
-	      slideItem.draw(area.x, y, scale, g, style, view);
-	      y += slideItem.getBoundingBox(g, view, scale, style).height;
+	      slideItem = getSlideItems().elementAt(number);
+	      slideItem.draw(g, area, view);
+		  area.y += slideItem.getYPosHeight();
 	    }
 	  }
 
-	// geef de schaal om de slide te kunnen tekenen
-	private float getScale(Rectangle area) {
-		return Math.min(((float)area.width) / ((float)WIDTH), ((float)area.height) / ((float)HEIGHT));
-	}
+
 }

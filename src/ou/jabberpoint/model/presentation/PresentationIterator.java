@@ -3,13 +3,13 @@ package ou.jabberpoint.model.presentation;
 import java.util.Iterator;
 
 /**
- * <p>PresentationIterator is een abstracte class, die het mechanisme definieert om door een presentatie heen te gaan.</p>
- * 
+ * <p>PresentationIterator is een interface, die het mechanisme definieert om door een presentatie heen te gaan.</p>
+ * <p>java.util.Iterator wordt (nog) niet gebruikt. </>
  * @author Nico, Orla
  *
  */
 
-public abstract class PresentationIterator implements Iterator<PresentationItem>{
+public interface PresentationIterator extends Iterator<PresentationItem> {
 	
 	public abstract int getCurrentSlideNumber();
 	public abstract void setCurrentSlideNumber(int slideNumber);
@@ -26,4 +26,6 @@ public abstract class PresentationIterator implements Iterator<PresentationItem>
 	
 	// ga naar de laatste slide
 	public abstract int lastSlide();
+	
+	public int getIndex();
 }

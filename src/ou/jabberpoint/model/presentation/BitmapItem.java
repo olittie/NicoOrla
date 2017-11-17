@@ -22,16 +22,17 @@ import java.io.IOException;
  * @version 1.6 2014/05/16 Sylvia Stuurman
 */
 
-public class BitmapItem extends SlideItem {
+public class BitmapItem {
   private BufferedImage bufferedImage;
   private String imageName;
-  
+	private int level = 0; // het level van het slideitem
+	
   protected static final String FILE = "Bestand ";
   protected static final String NOTFOUND = " niet gevonden";
 
 // level staat voor het item-level; name voor de naam van het bestand met de afbeelding
 	public BitmapItem(int level, String name) {
-		super(level);
+		this.level=level;
 		imageName = name;
 		try {
 			bufferedImage = ImageIO.read(new File(imageName));
@@ -46,6 +47,10 @@ public class BitmapItem extends SlideItem {
 		this(0, null);
 	}
 
+	public int getLevel() {
+		return level;
+	}
+	
 // geef de bestandsnaam van de afbeelding
 	public String getName() {
 		return imageName;

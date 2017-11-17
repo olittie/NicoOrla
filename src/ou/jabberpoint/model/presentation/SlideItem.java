@@ -15,9 +15,13 @@ import java.awt.image.ImageObserver;
  * @version 1.6 2014/05/16 Sylvia Stuurman
 */
 
-public abstract class SlideItem extends PresentationItem {
+public class SlideItem implements PresentationItem {
+	
+	public final static int WIDTH = 1200;
+	public final static int HEIGHT = 800;
 	private int level = 0; // het level van het slideitem
-
+	private int size; // de size van het slideitem
+	
 	public SlideItem(int lev) {
 		level = lev;
 	}
@@ -26,16 +30,29 @@ public abstract class SlideItem extends PresentationItem {
 		this(0);
 	}
 
-// Geef het level
 	public int getLevel() {
 		return level;
 	}
+		
+	// geef de afmeting van de SlideItem
+	public int getSize() {
+		return size;
+	}
+	
+	//empty
+	public void append(PresentationItem anItem) {};
 
-// Geef de bounding box
-	public abstract Rectangle getBoundingBox(Graphics g, 
-			ImageObserver observer, float scale, Style style);
+	// teken het item
+	public void draw(Graphics g, Rectangle area, ImageObserver view) {};
+	
+	// geef de schaal om de slide te kunnen tekenen
+	protected float getScale(Rectangle area) {
+		return Math.min(((float)area.width) / ((float)WIDTH), ((float)area.height) / ((float)HEIGHT));
+	}
 
-// teken het item
-	public abstract void draw(int x, int y, float scale, 
-			Graphics g, Style style, ImageObserver observer);
+	@Override
+	public int getYPosHeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

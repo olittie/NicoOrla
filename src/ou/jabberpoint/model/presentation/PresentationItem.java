@@ -11,18 +11,14 @@ import java.awt.image.ImageObserver;
  *
  */
 
-public abstract class PresentationItem {
+public interface PresentationItem {
 	
-
-	public void draw(Graphics g, Rectangle area, ImageObserver view)
-	{
-		
-	}
-
-	public void draw(int x, int y, float scale, 
-			Graphics g, Style style, ImageObserver observer)
-	{
-		
-	}
+	public final static int WIDTH = 1200;
+	public final static int HEIGHT = 800;
+	
+	public abstract int getSize();
+	public abstract int getYPosHeight();
+	public abstract void append(PresentationItem anItem);
+	public abstract void draw(Graphics g, Rectangle area, ImageObserver view);
 
 }

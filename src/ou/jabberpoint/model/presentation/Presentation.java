@@ -23,24 +23,24 @@ public class Presentation {
 
 	// Gebruik van Iterators om verschillende threads te doorlopen
 	// Elke thread bevat zijn eigen slidenummers
-	private ArrayList<SlideIterator> slideIters = null;
+	private ArrayList<PresentationIterator> slideIters = null;
 	// Huidige thread iterator
-	private SlideIterator currentSlideIter;
+	private PresentationIterator currentSlideIter;
 	private SlideViewerComponent slideViewComponent = null; // de viewcomponent voor de Slides
 
 	public Presentation() {
 		slideViewComponent = null;
-		this.slideIters = new ArrayList<SlideIterator>();
+		this.slideIters = new ArrayList<PresentationIterator>();
 		clear();
 	}
 
 	public Presentation(SlideViewerComponent slideViewerComponent) {
 		this.slideViewComponent = slideViewerComponent;
-		this.slideIters = new ArrayList<SlideIterator>();
+		this.slideIters = new ArrayList<PresentationIterator>();
 		clear();
 	}
 
-	public void addSlideIterator(SlideIterator si)
+	public void addSlideIterator(PresentationIterator si)
 	{
 		// TODO
 		slideIters.add(si);
@@ -52,7 +52,7 @@ public class Presentation {
 		currentSlideIter = slideIters.get(i);
 	}
 
-	public SlideIterator getCurrentSlideIterator()
+	public PresentationIterator getCurrentSlideIterator()
 	{
 		// TODO
 		return currentSlideIter;
@@ -118,7 +118,7 @@ public class Presentation {
 	}
 
 	// Voeg een slide toe aan de presentatie
-	public void append(Slide slide) {
+	public void append(PresentationItem slide) {
 		showList.add(slide);
 	}
 

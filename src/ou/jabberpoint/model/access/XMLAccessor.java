@@ -13,12 +13,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import ou.jabberpoint.model.presentation.BitmapItem;
+import ou.jabberpoint.model.presentation.BitmapItemAdapter;
 import ou.jabberpoint.model.presentation.Presentation;
+import ou.jabberpoint.model.presentation.PresentationItem;
 import ou.jabberpoint.model.presentation.Slide;
 import ou.jabberpoint.model.presentation.SlideItem;
 import ou.jabberpoint.model.presentation.SlideIterator;
-import ou.jabberpoint.model.presentation.TextItem;
+import ou.jabberpoint.model.presentation.TextItemAdapter;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -78,6 +79,7 @@ public class XMLAccessor extends Accessor {
 			max = slides.getLength();
 			for (slideNumber = 0; slideNumber < max; slideNumber++) {
 				Element xmlSlide = (Element) slides.item(slideNumber);
+				// TODO PrsentationItemFactory voor Slide
 				Slide slide = new Slide();
 				slide.setTitle(getTitle(xmlSlide, SLIDETITLE));
 				presentation.append(slide);
@@ -105,12 +107,12 @@ public class XMLAccessor extends Accessor {
 					Element item = (Element) threadSlideNumbers.item(itemNumber);
 					numbers.add(new Integer(item.getTextContent()));
 				}
-				// TODO slides
+				// TODO factory
 				SlideIterator si = new SlideIterator(numbers);
 				presentation.addSlideIterator(si);
 			}
 			
-			// TODO
+			// TODO factory
 			presentation.setCurrentSlideIterator(1);
 
 		} 
@@ -140,11 +142,11 @@ public class XMLAccessor extends Accessor {
 		}
 		String type = attributes.getNamedItem(KIND).getTextContent();
 		if (TEXT.equals(type)) {
-			slide.append(new TextItem(level, item.getTextContent()));
+			slide.append(new TextItemAdapter(level, item.getTextContent()));
 		}
 		else {
 			if (IMAGE.equals(type)) {
-				slide.append(new BitmapItem(level, item.getTextContent()));
+				slide.append(new BitmapItemAdapter(level, item.getTextContent()));
 			}
 			else {
 				System.err.println(UNKNOWNTYPE);
@@ -164,18 +166,18 @@ public class XMLAccessor extends Accessor {
 			Slide slide = presentation.getSlide(slideNumber);
 			out.println("<slide>");
 			out.println("<title>" + slide.getTitle() + "</title>");
-			Vector<SlideItem> slideItems = slide.getSlideItems();
+			Vector<PresentationItem> slideItems = slide.getSlideItems();
 			for (int itemNumber = 0; itemNumber<slideItems.size(); itemNumber++) {
 				SlideItem slideItem = (SlideItem) slideItems.elementAt(itemNumber);
 				out.print("<item kind="); 
-				if (slideItem instanceof TextItem) {
+				if (slideItem instanceof TextItemAdapter) {
 					out.print("\"text\" level=\"" + slideItem.getLevel() + "\">");
-					out.print( ( (TextItem) slideItem).getText());
+					out.print( ( (TextItemAdapter) slideItem).getText());
 				}
 				else {
-					if (slideItem instanceof BitmapItem) {
+					if (slideItem instanceof BitmapItemAdapter) {
 						out.print("\"image\" level=\"" + slideItem.getLevel() + "\">");
-						out.print( ( (BitmapItem) slideItem).getName());
+						out.print( ( (BitmapItemAdapter) slideItem).getName());
 					}
 					else {
 						System.out.println("Ignoring " + slideItem);

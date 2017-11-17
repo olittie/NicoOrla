@@ -35,6 +35,8 @@ public class MenuController extends MenuBar {
 	protected static final String FILE = "File";
 	protected static final String EXIT = "Exit";
 	protected static final String GOTO = "Go to";
+	protected static final String EDIT = "Edit";
+	protected static final String DELETE = "Delete";
 	protected static final String HELP = "Help";
 	protected static final String NEW = "New";
 	protected static final String NEXT = "Next";
@@ -55,6 +57,7 @@ public class MenuController extends MenuBar {
 		parent = frame;
 		presentation = pres;
 		MenuItem menuItem;
+		
 		Menu fileMenu = new Menu(FILE);
 		fileMenu.add(menuItem = mkMenuItem(OPEN));
 		menuItem.addActionListener(new ActionListener() {
@@ -98,6 +101,7 @@ public class MenuController extends MenuBar {
 			}
 		});
 		add(fileMenu);
+		
 		Menu viewMenu = new Menu(VIEW);
 		viewMenu.add(menuItem = mkMenuItem(NEXT));
 		menuItem.addActionListener(new ActionListener() {
@@ -120,6 +124,18 @@ public class MenuController extends MenuBar {
 			}
 		});
 		add(viewMenu);
+
+		Menu editMenu = new Menu(EDIT);
+		editMenu.add(menuItem = mkMenuItem(DELETE));
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				String pageNumberStr = JOptionPane.showInputDialog((Object)SLIDENR);
+				int pageNumber = Integer.parseInt(pageNumberStr);
+				presentation.setSlideNumber(pageNumber - 1);
+			}
+		});
+		add(editMenu);
+		
 		Menu helpMenu = new Menu(HELP);
 		helpMenu.add(menuItem = mkMenuItem(ABOUT));
 		menuItem.addActionListener(new ActionListener() {

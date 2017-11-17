@@ -1,6 +1,7 @@
 package ou.jabberpoint.model.presentation;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * <p>SlideIterator is een concrete class om door een presentatie heen te gaan.</p>
@@ -9,11 +10,11 @@ import java.util.ArrayList;
  *
  */
 
-public class SlideIterator extends PresentationIterator {
+public class SlideIterator extends Observable implements PresentationIterator {
 	
 	private ArrayList<Integer> threadNumbers; // een ArrayList met de slidenummers
 	private int index = 0;
-	private int currentSlideNumber = 0;
+	private int currentSlideNumber = 0; // verwijst naar het slidenummer in de thread
 	
 	public SlideIterator(ArrayList<Integer> numbers)
 	{
@@ -27,19 +28,25 @@ public class SlideIterator extends PresentationIterator {
 		return currentSlideNumber;
 	}
 	
-	// geef huidige Slidenummer
-	public void setCurrentSlideNumber(int slideNumber)
+	// zet index (slidenummer) in de huidige thread
+	public void setCurrentSlideNumber(int index)
 	{
-		boolean found = false;
-		for (int i = 0; (i < getSize()) && (found == false) ; i++)
+		if (index < getSize())
 		{
-			if (threadNumbers.get(i) == slideNumber)
-			{
-				index = i;
-				currentSlideNumber = threadNumbers.get(index);
-				found = true;
-			}
+			this.index = index;
+			currentSlideNumber = threadNumbers.get(this.index);
 		}
+		// deze code zet een slidenumber geen threadnumber
+//		boolean found = false;
+//		for (int i = 0; (i < getSize()) && (found == false) ; i++)
+//		{
+//			if (threadNumbers.get(i) == slideNumber)
+//			{
+//				index = i;
+//				currentSlideNumber = threadNumbers.get(index);
+//				found = true;
+//			}
+//		}
 	}
 	
 	public int getSize() {
