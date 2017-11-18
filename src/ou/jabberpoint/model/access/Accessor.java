@@ -2,6 +2,7 @@ package ou.jabberpoint.model.access;
 
 import java.io.IOException;
 
+import ou.jabberpoint.model.demo.DemoPresentation;
 import ou.jabberpoint.model.presentation.IPresentation;
 
 /**
@@ -19,20 +20,18 @@ import ou.jabberpoint.model.presentation.IPresentation;
 
 public abstract class Accessor {
 	
-	private final IPresentationReader _reader;
-	private final IPresentationWriter _writer;
+	public static final String DEMO_NAME = "Demonstratie presentatie";
+	public static final String DEFAULT_EXTENSION = ".xml";
 
-	public Accessor(IPresentationReader reader, IPresentationWriter writer) {
-		this._reader = reader;
-		this._writer = writer;
+//	public static Accessor getDemoAccessor() {
+//		return new DemoPresentation();
+//	}
+
+	public Accessor() {
 	}
 
-	public void loadFile(IPresentation presentation, String fileName) throws IOException {
-		this._reader.read(presentation, fileName);
-	}
+	abstract public void loadFile(IPresentation p, String fn) throws IOException;
 
-	public void saveFile(IPresentation presentation, String fileName) throws IOException {
-		this._writer.write(presentation, fileName);
-	}
+	abstract public void saveFile(IPresentation p, String fn) throws IOException;
 
 }

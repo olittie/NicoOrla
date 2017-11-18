@@ -1,8 +1,6 @@
 package ou.jabberpoint.model.access;
 
 import ou.jabberpoint.model.demo.DemoPresentation;
-import ou.jabberpoint.model.demo.DemoReader;
-import ou.jabberpoint.model.demo.DemoWriter;
 import ou.jabberpoint.model.presentation.IPresentationBuilder;
 import ou.jabberpoint.model.presentation.IStyleFactory;
 import ou.jabberpoint.model.presentation.PresentationBuilder;
@@ -21,7 +19,7 @@ public class AccessorFactory {
 	
 	public Accessor createAccessor()
 	{
-		return new DemoPresentation(new DemoReader(_slideItemFactory, new PresentationBuilder()), new DemoWriter());
+		return new DemoPresentation(_slideItemFactory, new PresentationBuilder());
 
 	}
 	
@@ -35,6 +33,6 @@ public class AccessorFactory {
 		IStyleFactory styleFactory = new StyleFactory();
 		IPresentationBuilder builder = new PresentationBuilder();
 		
-		return new XMLAccessor(new XmlReader(_slideItemFactory, builder), new XmlWriter());
+		return new XMLAccessor(_slideItemFactory, builder);
 	}
 }

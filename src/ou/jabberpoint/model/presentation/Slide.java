@@ -78,9 +78,10 @@ public class Slide extends PresentationItem {
 //	}
 
 //	public void draw(Graphics g, Rectangle area, ImageObserver view) {
+//		ISlideItemFactory _slideItemFactory = new SlideItemFactory((SlideViewerComponent)view);
 //		
 //		/* De titel hoeft niet meer apart behandeld te worden */
-//	    PresentationItem slideItem = new TextItemAdapter(0, this.title);
+//	    SlideItem slideItem = new TextItem(0, this.title);
 //	    slideItem.draw(g, area, view);
 //	    area.y += slideItem.getYPosHeight();
 //	    
@@ -99,24 +100,20 @@ public class Slide extends PresentationItem {
 	
 
 	@Override
-	void drawHeader(Graphics g, Rectangle area, ImageObserver view, float scale, int y) {
-		ISlideItemFactory _slideItemFactory = new SlideItemFactory((SlideViewerComponent)view);
-
-		_y = y;
-		SlideItem slideItem = _slideItemFactory.createTextItem(0, getTitle());
-		slideItem.draw(g, area.x, _y, scale);
-		_y += slideItem.getBoundingBox(g, scale).height;
-	}
-
-	@Override
 	void drawSlideItems(Graphics g, Rectangle area, ImageObserver view, float scale, int y) {
-		SlideItem slideItem;
+		ISlideItemFactory _slideItemFactory = new SlideItemFactory((SlideViewerComponent)view);
+		
+		yPos = y;
+		SlideItem slideItem = _slideItemFactory.createTextItem(0, getTitle());
+		slideItem.draw(g, area.x, yPos, scale);
+		yPos += slideItem.getBoundingBox(g, scale).height;
+		
 
 		for (int number = 0 ; number<getSize(); number++) {
 			SlideItemAdapter adapter = (SlideItemAdapter) getSlideItems().elementAt(number);
 			slideItem = adapter.getSlideItem();
-			slideItem.draw(g, area.x, _y, scale);
-			_y += slideItem.getBoundingBox(g, scale).height;
+			slideItem.draw(g, area.x, yPos, scale);
+			yPos += slideItem.getBoundingBox(g, scale).height;
 		}
 	}
 

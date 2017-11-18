@@ -18,13 +18,9 @@ public abstract class PresentationItem {
 	public final static int HEIGHT = 800;
 	
 //	public abstract int getSize();
-//	public abstract int getYPosHeight();
-//	
-//	public abstract void draw(Graphics g, Rectangle area, ImageObserver view);
-//kopie	
-	
+//	public abstract int getYPosHeight();	
 
-    protected int _y;
+    protected int yPos;
 
     protected Vector<PresentationItem> items;
     protected String title;
@@ -77,7 +73,6 @@ public abstract class PresentationItem {
         float scale = getScale(area);
         int y = area.y;
 
-        this.drawHeader(g, area, view, scale, y);
         this.drawSlideItems(g, area, view, scale, y);
     }
 
@@ -87,9 +82,7 @@ public abstract class PresentationItem {
     }
 
     public abstract Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style style);
-
-    abstract void drawHeader(Graphics g, Rectangle area, ImageObserver view, float scale, int y);
-
+    
     abstract void drawSlideItems(Graphics g, Rectangle area, ImageObserver view, float scale, int y);
 
 }

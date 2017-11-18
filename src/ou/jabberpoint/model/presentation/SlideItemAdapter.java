@@ -29,11 +29,6 @@ public class SlideItemAdapter extends PresentationItem {
     }
 
     @Override
-    void drawHeader(Graphics g, Rectangle area, ImageObserver view, float scale, int y) {
-        // don't draw header for slide item
-    }
-
-    @Override
     void drawSlideItems(Graphics g, Rectangle area, ImageObserver view, float scale, int y) {
         // don't draw items for slide item
     }
