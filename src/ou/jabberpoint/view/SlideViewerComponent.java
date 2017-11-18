@@ -25,7 +25,7 @@ import ou.jabberpoint.model.presentation.Slide;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class SlideViewerComponent extends AbstractSlideViewerComponent {
+public class SlideViewerComponent extends JComponent {
 		
 	private PresentationItemAdapter slide; // de huidige slide
 	private int currentSlideNumber;

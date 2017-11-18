@@ -2,7 +2,8 @@ package ou.jabberpoint.model.presentation;
 
 import ou.jabberpoint.event.EventDispatcher;
 import ou.jabberpoint.event.SlidesEvent;
-import ou.jabberpoint.view.AbstractSlideViewerComponent;
+import ou.jabberpoint.view.SlideViewerComponent;
+
 import java.awt.*;
 
 
@@ -39,7 +40,7 @@ public class Presentation extends AbstractPresentation implements IPresentation 
 	}
 	
 	@Override
-	public void draw(Graphics g, Rectangle area, AbstractSlideViewerComponent slideViewerComponent) {
+	public void draw(Graphics g, Rectangle area, SlideViewerComponent slideViewerComponent) {
 		// do nothing
 	}
 
