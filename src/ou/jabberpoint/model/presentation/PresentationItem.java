@@ -17,9 +17,6 @@ public abstract class PresentationItem {
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	
-//	public abstract int getSize();
-//	public abstract int getYPosHeight();	
-
     protected int yPos;
 
     protected Vector<PresentationItem> items;

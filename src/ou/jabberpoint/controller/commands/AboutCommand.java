@@ -7,15 +7,15 @@ import java.awt.*;
 
 public class AboutCommand implements ICommand {
 
-	private Frame _parent;
+	private Frame parent;
 	
 	public AboutCommand(Frame parentFrame)
 	{
-		_parent = parentFrame;
+		parent = parentFrame;
 	}
 	
 	public void execute()
 	{
-		AboutBox.show(_parent);
+		AboutBox.show(parent);
 	}
 }

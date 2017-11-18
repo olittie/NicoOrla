@@ -2,6 +2,7 @@ package ou.jabberpoint.model.presentation;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import ou.jabberpoint.view.SlideViewerComponent;
@@ -10,9 +11,13 @@ public abstract class AbstractPresentation implements IPresentation {
 		
 	protected String _title;
 	protected Vector<IPresentation> items;
+	protected ArrayList<ArrayList<Integer>> threads;
+	protected int currentThread;
 	
 	public AbstractPresentation() {
 	    this.items = new Vector<>();
+	    this.threads = new ArrayList<>();
+	    this.currentThread = 0;
 	}
 	
 	@Override
@@ -22,7 +27,13 @@ public abstract class AbstractPresentation implements IPresentation {
 	
 	@Override
 	public int getSize() {
-	    return items.size();
+		if (getThreadsSize() == 0) {
+			return items.size();
+		}
+		else {
+			return threads.get(currentThread).size();
+		}
+	    
 	}
 	
 	@Override
@@ -40,6 +51,22 @@ public abstract class AbstractPresentation implements IPresentation {
 	    return this._title;
 	}
 	
+	public void addThread(ArrayList<Integer> thread) {
+		threads.add(thread);
+	}
+	
+	public int getThreadsSize() {
+		return threads.size();
+	}
+	
+	public ArrayList<ArrayList<Integer>> getThreads(){
+		return null;
+	}
+	
+	public void setCurrentThread(int threadNumber) {
+		currentThread = threadNumber;
+	}
+	
 	@Override
 	public void draw(Graphics g, Rectangle area, SlideViewerComponent slideViewerComponent) {
         // do nothing
@@ -49,9 +76,14 @@ public abstract class AbstractPresentation implements IPresentation {
 	public void clear() {
 	    items = new Vector<>();
 	}
-	
+		
 	public PresentationIterator getIterator()
-	{
-	    return new SlideIterator(items);
+	{	
+		if (currentThread == 0) {
+			return new SlideIterator(items);
+		}
+		else {
+			return new SlideIterator(items, threads.get(currentThread));
+		}
 	}
 }

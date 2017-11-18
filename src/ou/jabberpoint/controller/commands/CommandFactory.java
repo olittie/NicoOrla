@@ -9,45 +9,45 @@ import ou.jabberpoint.view.SlideViewerFrame;
 
 public class CommandFactory implements ICommandFactory {
 		
-	private SlideViewerComponent _slideViewComponent;
-	private SlideViewerFrame _frame;
-	private IPresentation _presentation;
+	private SlideViewerComponent component;
+	private SlideViewerFrame frame;
+	private IPresentation presentation;
 	
-	public CommandFactory(SlideViewerFrame frame, SlideViewerComponent slideViewComponent, IPresentation presentation) {
-		_frame = frame;
-		_presentation = presentation;
-		_slideViewComponent = slideViewComponent;
+	public CommandFactory(SlideViewerFrame slideViewerFrame, SlideViewerComponent slideViewComponent, IPresentation p) {
+		frame = slideViewerFrame;
+		presentation = p;
+		component = slideViewComponent;
 	}
 		
 	public ICommand createNewPresentationCommand() {
-		return new NewPresentationCommand(_presentation, _frame);
+		return new NewPresentationCommand(presentation, frame);
 	}
 
 	public ICommand createOpenPresentationCommand()
 	{
-		return new OpenPresentationCommand(_presentation, _frame, new AccessorFactory( new SlideItemFactory(_slideViewComponent)));
+		return new OpenPresentationCommand(presentation, frame, new AccessorFactory( new SlideItemFactory(component)));
 	}
 	
 	public ICommand createSavePresentationCommand()
 	{
-		return new SavePresentationCommand(_presentation, _frame, new PresentationBuilder(), new AccessorFactory( new SlideItemFactory(_slideViewComponent)));
+		return new SavePresentationCommand(presentation, frame, new PresentationBuilder(), new AccessorFactory( new SlideItemFactory(component)));
 	}
 	
 	public ICommand createPreviousSlideCommand() {
-		return new PreviousSlideCommand(_frame, _slideViewComponent);
+		return new PreviousSlideCommand(frame, component);
 	}
 	
 	public ICommand createNextSlideCommand() {
-		return new NextSlideCommand(_frame, _slideViewComponent);
+		return new NextSlideCommand(frame, component);
 	}
 	
 	public ICommand createGoToSlideCommand() {
-		return new GoToSlideCommand(_frame, _slideViewComponent);
+		return new GoToSlideCommand(frame, component);
 	}
 	
 	public ICommand createAboutCommand()
 	{
-		return new AboutCommand(_frame);
+		return new AboutCommand(frame);
 	}
 	
 	public ICommand createExitCommand()

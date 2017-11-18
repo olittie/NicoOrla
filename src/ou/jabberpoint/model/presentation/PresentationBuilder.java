@@ -1,5 +1,7 @@
 package ou.jabberpoint.model.presentation;
 
+import java.util.ArrayList;
+
 public class PresentationBuilder implements IPresentationBuilder{
 	
 	private IPresentation result;
@@ -58,5 +60,14 @@ public class PresentationBuilder implements IPresentationBuilder{
         	lastSlide = null;
         }
     }
+
+	@Override
+	public IPresentationBuilder addThread(ArrayList<Integer> thread) {
+		if (result == null) {
+            throw new NullPointerException("Cannot add a thread when no presentation is set.");
+        }
+		result.addThread(thread);        
+        return this;
+	}
 
 }

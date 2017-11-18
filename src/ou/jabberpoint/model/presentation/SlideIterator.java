@@ -1,5 +1,6 @@
 package ou.jabberpoint.model.presentation;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -12,22 +13,20 @@ import java.util.Vector;
 
 public class SlideIterator extends Observable implements PresentationIterator {
 	
-//	private ArrayList<Integer> threadNumbers; // een ArrayList met de slidenummers
-//	private int index = 0;
-	private int currentSlideNumber = 0; // verwijst naar het slidenummer in de thread
+	private ArrayList<Integer> threadNumbers; // een ArrayList met de slidenummers
+	private int currentSlideNumber; // verwijst naar het slidenummer in de thread
 	
 	private Vector<IPresentation> slides;
 	
-//	public SlideIterator(ArrayList<Integer> numbers)
-//	{
-//		this.threadNumbers = numbers;
-//		currentSlideNumber = threadNumbers.get(0);
-//	}
-	
-	public SlideIterator(Vector<IPresentation> slides) 
-	{
+	public SlideIterator(Vector<IPresentation> slides) {
 		this.slides = slides;
 		currentSlideNumber = 0;
+		threadNumbers = new ArrayList<>();
+	}
+	public SlideIterator(Vector<IPresentation> slides, ArrayList<Integer> thread) {
+		this.slides = slides;
+		currentSlideNumber = 0;
+		threadNumbers = thread;
 	}
 	
 	// geef huidige Slidenummer
@@ -37,7 +36,7 @@ public class SlideIterator extends Observable implements PresentationIterator {
 	}
 	
 	// zet index (slidenummer) in de huidige thread
-	public IPresentation setCurrentSlideNumber(int index) {
+	public IPresentation setCurrentSlideNumber(int slideNumber) {
 //		if (currentSlideNumber < getSize())
 //		{
 //			this.currentSlideNumber = currentSlideNumber;
@@ -60,25 +59,35 @@ public class SlideIterator extends Observable implements PresentationIterator {
 			return null;
 		}
 		
-		if(index < 0)
+		if(slideNumber < 0)
 		{
 			currentSlideNumber = 0;
 		}
-		else if( index >= getSize() )
+		else if( slideNumber >= getSize() )
 		{
 			currentSlideNumber = getSize() - 1;
 		}
 		else
 		{
-			currentSlideNumber = index;
+			currentSlideNumber = slideNumber;
 		}
-	
-		return slides.get(currentSlideNumber);
+		int index;
+		if (threadNumbers.size() == 0) {
+			index = currentSlideNumber;
+		}
+		else {
+			index = threadNumbers.get(currentSlideNumber);
+		}
+		return slides.get(index);
 	}	
 	
 	public int getSize() {
-		return slides.size();
-//		return this.threadNumbers.size();
+		if (threadNumbers.size() == 0) {
+			return slides.size();
+		}
+		else {
+			return threadNumbers.size();
+		}
 	}
 	
 	public int getIndex() {

@@ -39,17 +39,4 @@ public class PresentationItemAdapter extends AbstractPresentation implements IPr
     public void draw(Graphics g, Rectangle area, SlideViewerComponent slideViewerComponent) {
     	this.presentationItem.draw(g, area, slideViewerComponent);
     }
-
-//	@Override
-//	public void clear() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public PresentationIterator getIterator() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 }

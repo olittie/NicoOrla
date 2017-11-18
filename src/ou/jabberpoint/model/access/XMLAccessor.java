@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -84,6 +85,24 @@ public class XMLAccessor extends Accessor {
 			Element doc = document.getDocumentElement();
 			presentation.setTitle(getTitle(doc, SHOWTITLE));
 			this.builder.setPresentation(presentation);
+			
+			// Toevoeging van threads iterators	
+			NodeList threads = doc.getElementsByTagName(THREAD);
+			max = threads.getLength();
+			for (int threadNumber = 0; threadNumber < max; threadNumber++) {
+				
+				ArrayList<Integer> numbers = new ArrayList<Integer>();
+				
+				Element xmlThread = (Element) threads.item(threadNumber);
+				NodeList threadSlideNumbers = xmlThread.getElementsByTagName(SLIDENUMBER);
+				maxItems = threadSlideNumbers.getLength();
+				for (itemNumber = 0; itemNumber < maxItems; itemNumber++) {
+					Element item = (Element) threadSlideNumbers.item(itemNumber);
+					numbers.add(new Integer(item.getTextContent()));
+				}
+				this.builder.addThread(numbers);
+			}
+			presentation.setCurrentThread(1);
 
 			NodeList slides = doc.getElementsByTagName(SLIDE);
 			max = slides.getLength();
@@ -100,30 +119,12 @@ public class XMLAccessor extends Accessor {
 					Element item = (Element) slideItems.item(itemNumber);
 					loadSlideItem(slide, item);
 				}
-			}
+			}			
 			
 			
-			// Toevoeging van threads iterators	
-//			NodeList threads = doc.getElementsByTagName(THREAD);
-//			max = threads.getLength();
-//			for (int threadNumber = 0; threadNumber < max; threadNumber++) {
-//				
-//				ArrayList<Integer> numbers = new ArrayList<Integer>();
-//				
-//				Element xmlThread = (Element) threads.item(threadNumber);
-//				NodeList threadSlideNumbers = xmlThread.getElementsByTagName(SLIDENUMBER);
-//				maxItems = threadSlideNumbers.getLength();
-//				for (itemNumber = 0; itemNumber < maxItems; itemNumber++) {
-//					Element item = (Element) threadSlideNumbers.item(itemNumber);
-//					numbers.add(new Integer(item.getTextContent()));
-//				}
-//				// TODO factory
-//				SlideIterator si = new SlideIterator(numbers);
-//				presentation.addSlideIterator(si);
-//			}
 			
 			// TODO factory
-//			presentation.setCurrentSlideIterator(1);
+			
 			presentation = this.builder.getResult();
 
 		} 

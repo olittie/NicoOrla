@@ -1,5 +1,6 @@
 package ou.jabberpoint.model.presentation;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -14,7 +15,7 @@ public interface PresentationIterator extends Iterator<PresentationItem> {
 	int getCurrentSlideNumber();
 	IPresentation setCurrentSlideNumber(int slideNumber);
 	int getSize();
-	
+		
 	// ga naar de eerste slide
 	IPresentation firstSlide();
 	

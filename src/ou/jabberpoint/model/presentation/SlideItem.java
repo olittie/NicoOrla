@@ -2,7 +2,6 @@ package ou.jabberpoint.model.presentation;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.image.ImageObserver;
 
 /** <p>De abstracte klasse voor een item op een Slide<p>
  * <p>Alle SlideItems hebben tekenfunctionaliteit.</p>

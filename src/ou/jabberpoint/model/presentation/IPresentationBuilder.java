@@ -1,5 +1,7 @@
 package ou.jabberpoint.model.presentation;
 
+import java.util.ArrayList;
+
 public interface IPresentationBuilder {
 	
 	IPresentation getResult();
@@ -7,6 +9,8 @@ public interface IPresentationBuilder {
     void clear();
 
     IPresentationBuilder setPresentation(IPresentation presentation);
+    
+    IPresentationBuilder addThread(ArrayList<Integer> thread);
 
     IPresentationBuilder addSlide(PresentationItem slide);
 
