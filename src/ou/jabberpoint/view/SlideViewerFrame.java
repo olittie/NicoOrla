@@ -8,7 +8,15 @@ import javax.swing.JFrame;
 
 import ou.jabberpoint.controller.KeyController;
 import ou.jabberpoint.controller.MenuController;
+import ou.jabberpoint.controller.commands.CommandFactory;
+import ou.jabberpoint.controller.commands.ICommandFactory;
+import ou.jabberpoint.event.CommandEventListener;
+import ou.jabberpoint.event.EventDispatcher;
+import ou.jabberpoint.event.SlideIteratorEvent;
+import ou.jabberpoint.event.SlidesEvent;
+import ou.jabberpoint.model.presentation.IPresentation;
 import ou.jabberpoint.model.presentation.Presentation;
+import ou.jabberpoint.model.presentation.PresentationIterator;
 
 /**
  * <p>Het applicatiewindow voor een slideviewcomponent</p>
@@ -21,33 +29,48 @@ import ou.jabberpoint.model.presentation.Presentation;
  * @version 1.6 2014/05/16 Sylvia Stuurman
 */
 
-public class SlideViewerFrame extends JFrame {
+public class SlideViewerFrame extends JFrame implements CommandEventListener<SlidesEvent>  {
 	private static final long serialVersionUID = 3227L;
 	
 	private static final String JABTITLE = "Jabberpoint 1.6 - OU";
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	
+	private IPresentation _presentation;
+	public SlideViewerComponent slideViewerComponent;
+	public EventDispatcher<SlideIteratorEvent> slideIteratorDispatcher;
+	
 	public SlideViewerFrame(String title, Presentation presentation) {
 		super(title);
-		SlideViewerComponent slideViewerComponent = new SlideViewerComponent(presentation, this);
-		presentation.setShowView(slideViewerComponent);
-		setupWindow(slideViewerComponent, presentation);
+		_presentation = presentation;
+		slideIteratorDispatcher = new EventDispatcher<>();
+
+		slideViewerComponent = new SlideViewerComponent(presentation, this);		
+		presentation.slidesDispatcher.addListener(this);
+		setupWindow(slideViewerComponent);
 	}
 
 // De GUI opzetten
-	public void setupWindow(SlideViewerComponent 
-			slideViewerComponent, Presentation presentation) {
+	public void setupWindow(SlideViewerComponent slideViewerComponent) {
 		setTitle(JABTITLE);
 		addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					System.exit(0);
 				}
-			});
+			});		
+		ICommandFactory commandFactory = new CommandFactory(this, slideViewerComponent, _presentation);		
 		getContentPane().add(slideViewerComponent);
-		addKeyListener(new KeyController(presentation)); // een controller toevoegen
-		setMenuBar(new MenuController(this, presentation));	// nog een controller toevoegen
+		addKeyListener(new KeyController(commandFactory)); // een controller toevoegen
+		setMenuBar(new MenuController(commandFactory));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
 		setVisible(true);
+	}
+
+	@Override
+	public void eventFired(SlidesEvent e) {
+		// TODO Auto-generated method stub
+		PresentationIterator slideIterator = _presentation.getIterator();
+		slideIteratorDispatcher.fire(new SlideIteratorEvent(this, slideIterator));
+		slideViewerComponent.update(slideIterator.firstSlide(), slideIterator.getCurrentSlideNumber());
 	}
 }

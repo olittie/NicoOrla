@@ -1,14 +1,14 @@
 package ou.jabberpoint;
 
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 import ou.jabberpoint.model.access.Accessor;
-import ou.jabberpoint.model.access.XMLAccessor;
+import ou.jabberpoint.model.access.AccessorFactory;
 import ou.jabberpoint.model.presentation.Presentation;
-import ou.jabberpoint.model.presentation.Style;
+import ou.jabberpoint.view.SlideItemFactory;
 import ou.jabberpoint.view.SlideViewerFrame;
-
-import java.io.IOException;
 
 /** JabberPoint Main Programma
  * <p>This program is distributed under the terms of the accompanying
@@ -32,16 +32,19 @@ public class JabberPoint {
 	/** Het Main Programma */
 	public static void main(String argv[]) {
 		
-		Style.createStyles();
 		Presentation presentation = new Presentation();
-		new SlideViewerFrame(JABVERSION, presentation);		
+		SlideViewerFrame frame = new SlideViewerFrame(JABVERSION, presentation);	
+		
 		try {
 			if (argv.length == 0) { // een demo presentatie
-				Accessor.getDemoAccessor().loadFile(presentation, "");
+				AccessorFactory accessorFactory = new AccessorFactory(new SlideItemFactory(frame.slideViewerComponent));
+				Accessor accessor = accessorFactory.createAccessor();
+				accessor.loadFile(presentation, "");
 			} else {
-				new XMLAccessor().loadFile(presentation, argv[0]);
+				AccessorFactory accessorFactory = new AccessorFactory(new SlideItemFactory(frame.slideViewerComponent));
+				Accessor accessor = accessorFactory.createAccessor(argv[0]);
+				accessor.loadFile(presentation, argv[0]);
 			}
-			presentation.setSlideNumber(0);
 		
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(null,

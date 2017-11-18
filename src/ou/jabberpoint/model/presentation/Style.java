@@ -17,38 +17,51 @@ import java.awt.Font;
  */
 
 public class Style {
-	private static Style[] styles; // de styles
 	
 	private static final String FONTNAME = "Helvetica";
+	int level;
 	int indent;
 	Color color;
 	Font font;
 	int fontSize;
 	int leading;
-
-	public static void createStyles() {
-		styles = new Style[5];    
-		// De styles zijn vast ingecodeerd.
-		styles[0] = new Style(0, Color.red,   48, 20);	// style voor item-level 0
-		styles[1] = new Style(20, Color.blue,  40, 10);	// style voor item-level 1
-		styles[2] = new Style(50, Color.black, 36, 10);	// style voor item-level 2
-		styles[3] = new Style(70, Color.black, 30, 10);	// style voor item-level 3
-		styles[4] = new Style(90, Color.black, 24, 10);	// style voor item-level 4
-	}
-
-	public static Style getStyle(int level) {
-		if (level >= styles.length) {
-			level = styles.length - 1;
-		}
-		return styles[level];
-	}
-
-	public Style(int indent, Color color, int points, int leading) {
+		
+	public Style(int level, int indent, Color color, int points, int leading) {
+		this.level = level;
 		this.indent = indent;
 		this.color = color;
 		font = new Font(FONTNAME, Font.BOLD, fontSize=points);
 		this.leading = leading;
 	}
+	
+	public void setLevel(int level) { 
+		this.level = level; 
+	}
+	public int getLevel() { 
+		return level; 
+	}
+
+	public void setIndent(int indent) { 
+		this.indent = indent; 
+	}
+	public int getIndent() { 
+		return indent; 
+	}
+
+	public void setColor(Color color)
+	{
+		this.color = color;
+	}
+	public Color getColor() { 
+		return color; 
+	}
+
+	public void setLeading(int leading) { 
+		this.leading = leading; 
+	}
+	public int getLeading() { 
+		return leading; 
+	}	
 
 	public String toString() {
 		return "["+ indent + "," + color + "; " + fontSize + " on " + leading +"]";

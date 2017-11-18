@@ -1,7 +1,7 @@
 package ou.jabberpoint.model.presentation;
 
-import java.awt.Rectangle;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
 /** <p>De abstracte klasse voor een item op een Slide<p>
@@ -15,44 +15,24 @@ import java.awt.image.ImageObserver;
  * @version 1.6 2014/05/16 Sylvia Stuurman
 */
 
-public class SlideItem implements PresentationItem {
-	
-	public final static int WIDTH = 1200;
-	public final static int HEIGHT = 800;
-	private int level = 0; // het level van het slideitem
-	private int size; // de size van het slideitem
-	
-	public SlideItem(int lev) {
-		level = lev;
-	}
-
-	public SlideItem() {
-		this(0);
-	}
-
-	public int getLevel() {
-		return level;
-	}
-		
-	// geef de afmeting van de SlideItem
-	public int getSize() {
-		return size;
-	}
-	
-	//empty
-	public void append(PresentationItem anItem) {};
+public abstract class SlideItem {
 
 	// teken het item
-	public void draw(Graphics g, Rectangle area, ImageObserver view) {};
-	
-	// geef de schaal om de slide te kunnen tekenen
-	protected float getScale(Rectangle area) {
-		return Math.min(((float)area.width) / ((float)WIDTH), ((float)area.height) / ((float)HEIGHT));
+	public abstract void draw(Graphics g, int x, int y, float scale);
+
+	private Style style;
+
+	public SlideItem(Style style) {
+		this.style = style;
 	}
 
-	@Override
-	public int getYPosHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Style getStyle() {
+		return style;
+	}
+
+	public abstract Rectangle getBoundingBox(Graphics g, float scale);
+
+	public int getLevel() {
+		return style.level;
 	}
 }

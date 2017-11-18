@@ -1,7 +1,7 @@
 package ou.jabberpoint.model.presentation;
 
-import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Vector;
 
 /**
  * <p>SlideIterator is een concrete class om door een presentatie heen te gaan.</p>
@@ -12,14 +12,22 @@ import java.util.Observable;
 
 public class SlideIterator extends Observable implements PresentationIterator {
 	
-	private ArrayList<Integer> threadNumbers; // een ArrayList met de slidenummers
-	private int index = 0;
+//	private ArrayList<Integer> threadNumbers; // een ArrayList met de slidenummers
+//	private int index = 0;
 	private int currentSlideNumber = 0; // verwijst naar het slidenummer in de thread
 	
-	public SlideIterator(ArrayList<Integer> numbers)
+	private Vector<IPresentation> slides;
+	
+//	public SlideIterator(ArrayList<Integer> numbers)
+//	{
+//		this.threadNumbers = numbers;
+//		currentSlideNumber = threadNumbers.get(0);
+//	}
+	
+	public SlideIterator(Vector<IPresentation> slides) 
 	{
-		this.threadNumbers = numbers;
-		currentSlideNumber = threadNumbers.get(0);
+		this.slides = slides;
+		currentSlideNumber = 0;
 	}
 	
 	// geef huidige Slidenummer
@@ -29,69 +37,78 @@ public class SlideIterator extends Observable implements PresentationIterator {
 	}
 	
 	// zet index (slidenummer) in de huidige thread
-	public void setCurrentSlideNumber(int index)
-	{
-		if (index < getSize())
-		{
-			this.index = index;
-			currentSlideNumber = threadNumbers.get(this.index);
-		}
-		// deze code zet een slidenumber geen threadnumber
-//		boolean found = false;
-//		for (int i = 0; (i < getSize()) && (found == false) ; i++)
+	public IPresentation setCurrentSlideNumber(int index) {
+//		if (currentSlideNumber < getSize())
 //		{
-//			if (threadNumbers.get(i) == slideNumber)
-//			{
-//				index = i;
-//				currentSlideNumber = threadNumbers.get(index);
-//				found = true;
-//			}
+//			this.currentSlideNumber = currentSlideNumber;
+//			currentSlideNumber = slides.;
 //		}
-	}
+//		// deze code zet een slidenumber geen threadnumber
+////		boolean found = false;
+////		for (int i = 0; (i < getSize()) && (found == false) ; i++)
+////		{
+////			if (threadNumbers.get(i) == slideNumber)
+////			{
+////				index = i;
+////				currentSlideNumber = threadNumbers.get(index);
+////				found = true;
+////			}
+////		}
+		
+		if( getSize() == 0 )
+		{
+			return null;
+		}
+		
+		if(index < 0)
+		{
+			currentSlideNumber = 0;
+		}
+		else if( index >= getSize() )
+		{
+			currentSlideNumber = getSize() - 1;
+		}
+		else
+		{
+			currentSlideNumber = index;
+		}
+	
+		return slides.get(currentSlideNumber);
+	}	
 	
 	public int getSize() {
-		return this.threadNumbers.size();
+		return slides.size();
+//		return this.threadNumbers.size();
 	}
 	
 	public int getIndex() {
-		return this.index;
+		return this.currentSlideNumber;
 	}
 	
 	// ga naar de eerste slide
-	public int firstSlide()
+	public IPresentation firstSlide()
 	{
-		index = 0;
-		currentSlideNumber = threadNumbers.get(index);
-		return currentSlideNumber;
+		return setCurrentSlideNumber(0);
 	}
 	
 	// ga naar de vorige slide tenzij je aan het begin van de presentatie bent
-	public int prevSlide()
+	public IPresentation prevSlide()
 	{
-		if (index > 0) 
-		{
-			index = index - 1;
-			currentSlideNumber = threadNumbers.get(index);
-		}
-		return currentSlideNumber;
+		currentSlideNumber--;
+		return setCurrentSlideNumber(currentSlideNumber);
 	}
 
 	// Ga naar de volgende slide tenzij je aan het einde van de presentatie bent.
-	public int nextSlide()
+	public IPresentation nextSlide()
 	{
-		if (index < (this.getSize()-1)) {
-			index = index + 1;
-			currentSlideNumber = threadNumbers.get(index);
-		}
-		return currentSlideNumber;
+		currentSlideNumber++;
+		return setCurrentSlideNumber(currentSlideNumber);
 	}
 	
 	// ga naar de laatste slide
-	public int lastSlide()
+	public IPresentation lastSlide()
 	{
-		index = this.getSize() - 1;
-		currentSlideNumber = threadNumbers.get(index);
-		return currentSlideNumber;
+		return setCurrentSlideNumber(getSize());
 	}
 
 	@Override
@@ -105,6 +122,4 @@ public class SlideIterator extends Observable implements PresentationIterator {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-
 }

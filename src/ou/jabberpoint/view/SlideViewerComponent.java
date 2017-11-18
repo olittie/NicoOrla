@@ -1,14 +1,17 @@
 package ou.jabberpoint.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import ou.jabberpoint.model.presentation.IPresentation;
 import ou.jabberpoint.model.presentation.Presentation;
+import ou.jabberpoint.model.presentation.PresentationItemAdapter;
 import ou.jabberpoint.model.presentation.Slide;
 
 
@@ -22,9 +25,10 @@ import ou.jabberpoint.model.presentation.Slide;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class SlideViewerComponent extends JComponent {
+public class SlideViewerComponent extends AbstractSlideViewerComponent {
 		
-	private Slide slide; // de huidige slide
+	private PresentationItemAdapter slide; // de huidige slide
+	private int currentSlideNumber;
 	private Font labelFont = null; // het font voor labels
 	private Presentation presentation = null; // de presentatie
 	private JFrame frame = null;
@@ -50,29 +54,31 @@ public class SlideViewerComponent extends JComponent {
 		return new Dimension(Slide.WIDTH, Slide.HEIGHT);
 	}
 
-	public void update(Presentation presentation, Slide data) {
-		if (data == null) {
+	public void update(IPresentation presentationItem, int slideNumber) {
+		this.currentSlideNumber = slideNumber;
+		this.slide = (PresentationItemAdapter) presentationItem;
+
+		if (this.slide == null) {
 			repaint();
 			return;
 		}
-		this.presentation = presentation;
-		this.slide = data;
 		repaint();
-		frame.setTitle(presentation.getTitle());
+		frame.setTitle(presentation.getTitle());	
+
 	}
 
 // teken de slide
 	public void paintComponent(Graphics g) {
 		g.setColor(BGCOLOR);
 		g.fillRect(0, 0, getSize().width, getSize().height);
-		if (presentation.getSlideNumber() < 0 || slide == null) {
+		if (currentSlideNumber < 0 || slide == null) {
 			return;
 		}
 		g.setFont(labelFont);
 		g.setColor(COLOR);
-		g.drawString("Slide " + (1 + presentation.getCurrentSlideIterator().getIndex()) + " of " +
-                 presentation.getCurrentSlideIterator().getSize(), XPOS, YPOS);
+		g.drawString("Slide " + (1 + currentSlideNumber) + " of " +
+                presentation.getSize(), XPOS, YPOS);
 		Rectangle area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
 		slide.draw(g, area, this);
-	}
+	}	
 }

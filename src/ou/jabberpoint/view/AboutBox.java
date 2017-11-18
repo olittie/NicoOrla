@@ -1,6 +1,7 @@
 package ou.jabberpoint.view;
 
 import java.awt.Frame;
+
 import javax.swing.JOptionPane;
 
 /**De About-box voor JabberPoint.

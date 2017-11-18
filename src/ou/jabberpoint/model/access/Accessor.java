@@ -2,8 +2,8 @@ package ou.jabberpoint.model.access;
 
 import java.io.IOException;
 
-import ou.jabberpoint.model.demo.DemoPresentation;
-import ou.jabberpoint.model.presentation.Presentation;
+import ou.jabberpoint.model.presentation.IPresentation;
+
 /**
  * <p>Een Accessor maakt het mogelijk om gegevens voor een presentatie
  * te lezen of te schrijven.</p>
@@ -18,18 +18,21 @@ import ou.jabberpoint.model.presentation.Presentation;
  */
 
 public abstract class Accessor {
-	public static final String DEMO_NAME = "Demonstratie presentatie";
-	public static final String DEFAULT_EXTENSION = ".xml";
+	
+	private final IPresentationReader _reader;
+	private final IPresentationWriter _writer;
 
-	public static Accessor getDemoAccessor() {
-		return new DemoPresentation();
+	public Accessor(IPresentationReader reader, IPresentationWriter writer) {
+		this._reader = reader;
+		this._writer = writer;
 	}
 
-	public Accessor() {
+	public void loadFile(IPresentation presentation, String fileName) throws IOException {
+		this._reader.read(presentation, fileName);
 	}
 
-	abstract public void loadFile(Presentation p, String fn) throws IOException;
-
-	abstract public void saveFile(Presentation p, String fn) throws IOException;
+	public void saveFile(IPresentation presentation, String fileName) throws IOException {
+		this._writer.write(presentation, fileName);
+	}
 
 }

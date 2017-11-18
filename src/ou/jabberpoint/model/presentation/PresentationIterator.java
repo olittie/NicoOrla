@@ -11,21 +11,22 @@ import java.util.Iterator;
 
 public interface PresentationIterator extends Iterator<PresentationItem> {
 	
-	public abstract int getCurrentSlideNumber();
-	public abstract void setCurrentSlideNumber(int slideNumber);
-	public abstract int getSize();
+	int getCurrentSlideNumber();
+	IPresentation setCurrentSlideNumber(int slideNumber);
+	int getSize();
 	
 	// ga naar de eerste slide
-	public abstract int firstSlide();
+	IPresentation firstSlide();
 	
 	// ga naar de vorige slide tenzij je aan het begin van de presentatie bent
-	public abstract int prevSlide();
+	IPresentation prevSlide();
 
 	// Ga naar de volgende slide tenzij je aan het einde van de presentatie bent.
-	public abstract int nextSlide();
+	IPresentation nextSlide();
 	
 	// ga naar de laatste slide
-	public abstract int lastSlide();
+	IPresentation lastSlide();
 	
-	public int getIndex();
+	int getIndex();	
+
 }

@@ -1,14 +1,14 @@
 package ou.jabberpoint.model.presentation;
 
-import java.awt.Rectangle;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import java.io.IOException;
+import ou.jabberpoint.view.BitmapItemDrawer;
 
 
 /** <p>De klasse voor een Bitmap item</p>
@@ -22,33 +22,31 @@ import java.io.IOException;
  * @version 1.6 2014/05/16 Sylvia Stuurman
 */
 
-public class BitmapItem {
-  private BufferedImage bufferedImage;
-  private String imageName;
-	private int level = 0; // het level van het slideitem
+public class BitmapItem extends SlideItem {
 	
-  protected static final String FILE = "Bestand ";
-  protected static final String NOTFOUND = " niet gevonden";
+	private BufferedImage bufferedImage;
+	private String imageName;
+	private BitmapItemDrawer itemDrawer;
+	
+	protected static final String FILE = "Bestand ";
+	protected static final String NOTFOUND = " niet gevonden";
 
 // level staat voor het item-level; name voor de naam van het bestand met de afbeelding
-	public BitmapItem(int level, String name) {
-		this.level=level;
-		imageName = name;
+	public BitmapItem(String name, Style style, BitmapItemDrawer itemDrawer) {
+		super(style);
+		imageName = name;		
+		this.itemDrawer = itemDrawer;
 		try {
 			bufferedImage = ImageIO.read(new File(imageName));
 		}
 		catch (IOException e) {
 			System.err.println(FILE + imageName + NOTFOUND) ;
 		}
-	}
-
+	}	
+	
 // Een leeg bitmap-item
-	public BitmapItem() {
-		this(0, null);
-	}
-
-	public int getLevel() {
-		return level;
+	public BitmapItem(Style style) {
+		this(null, style, null);
 	}
 	
 // geef de bestandsnaam van de afbeelding
@@ -57,22 +55,17 @@ public class BitmapItem {
 	}
 
 // geef de bounding box van de afbeelding
-	public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style myStyle) {
-		return new Rectangle((int) (myStyle.indent * scale), 0,
-				(int) (bufferedImage.getWidth(observer) * scale),
-				((int) (myStyle.leading * scale)) + 
-				(int) (bufferedImage.getHeight(observer) * scale));
+	public Rectangle getBoundingBox(Graphics g, float scale) {
+		return itemDrawer.getBoundingBox(g, scale, getStyle(), bufferedImage);
 	}
 
 // teken de afbeelding
-	public void draw(int x, int y, float scale, Graphics g, Style myStyle, ImageObserver observer) {
-		int width = x + (int) (myStyle.indent * scale);
-		int height = y + (int) (myStyle.leading * scale);
-		g.drawImage(bufferedImage, width, height,(int) (bufferedImage.getWidth(observer)*scale),
-                (int) (bufferedImage.getHeight(observer)*scale), observer);
+	public void draw(Graphics g, int x, int y, float scale) {
+		itemDrawer.drawBitmap(g, x, y, scale, getStyle(), bufferedImage);
 	}
 
 	public String toString() {
-		return "BitmapItem[" + getLevel() + "," + imageName + "]";
-	}
+		return "{BitmapItem:" + "," + imageName + "}";
+	}		
+		
 }
