@@ -2,7 +2,6 @@ package ou.jabberpoint.model.access;
 
 import java.io.IOException;
 
-import ou.jabberpoint.model.demo.DemoPresentation;
 import ou.jabberpoint.model.presentation.IPresentation;
 
 /**

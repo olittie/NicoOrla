@@ -1,6 +1,5 @@
 package ou.jabberpoint.model.presentation;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
