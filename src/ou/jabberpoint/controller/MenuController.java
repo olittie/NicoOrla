@@ -5,8 +5,8 @@ import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.MenuShortcut;
 
-import ou.jabberpoint.controller.commands.ICommand;
-import ou.jabberpoint.controller.commands.ICommandFactory;
+import ou.jabberpoint.controller.command.ICommand;
+import ou.jabberpoint.controller.command.ICommandFactory;
 
 /** <p>De controller voor het menu</p>
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman

@@ -1,4 +1,4 @@
-package ou.jabberpoint.controller.commands;
+package ou.jabberpoint.controller.command;
 
 public interface ICommandFactory {
 	ICommand createNewPresentationCommand();

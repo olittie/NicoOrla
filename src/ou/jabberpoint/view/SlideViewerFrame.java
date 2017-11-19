@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 
 import ou.jabberpoint.controller.KeyController;
 import ou.jabberpoint.controller.MenuController;
-import ou.jabberpoint.controller.commands.CommandFactory;
-import ou.jabberpoint.controller.commands.ICommandFactory;
+import ou.jabberpoint.controller.command.CommandFactory;
+import ou.jabberpoint.controller.command.ICommandFactory;
 import ou.jabberpoint.event.CommandEventListener;
 import ou.jabberpoint.event.EventDispatcher;
 import ou.jabberpoint.event.SlideIteratorEvent;

@@ -2,8 +2,8 @@ package ou.jabberpoint.controller;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import ou.jabberpoint.controller.commands.ICommand;
-import ou.jabberpoint.controller.commands.ICommandFactory;
+import ou.jabberpoint.controller.command.ICommand;
+import ou.jabberpoint.controller.command.ICommandFactory;
 
 /** <p>This is the KeyController (KeyListener)</p>
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman

@@ -1,4 +1,4 @@
-package ou.jabberpoint.controller.commands;
+package ou.jabberpoint.controller.command;
 
 import ou.jabberpoint.model.access.Accessor;
 import ou.jabberpoint.model.access.AccessorFactory;

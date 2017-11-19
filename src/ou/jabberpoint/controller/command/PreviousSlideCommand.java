@@ -1,18 +1,19 @@
-package ou.jabberpoint.controller.commands;
+package ou.jabberpoint.controller.command;
 
+import ou.jabberpoint.view.SlideViewerFrame;
 import ou.jabberpoint.event.CommandEventListener;
 import ou.jabberpoint.event.SlideIteratorEvent;
 import ou.jabberpoint.model.presentation.IPresentation;
 import ou.jabberpoint.model.presentation.PresentationIterator;
 import ou.jabberpoint.view.SlideViewerComponent;
-import ou.jabberpoint.view.SlideViewerFrame;
 
-public class NextSlideCommand implements ICommand, CommandEventListener<SlideIteratorEvent> {
+
+public class PreviousSlideCommand implements ICommand, CommandEventListener<SlideIteratorEvent> {
 	
 	private PresentationIterator _presentationIterator;
 	private SlideViewerComponent _slideViewComponent;
 	
-	public NextSlideCommand(SlideViewerFrame frame, SlideViewerComponent slideViewComponent )
+	public PreviousSlideCommand(SlideViewerFrame frame, SlideViewerComponent slideViewComponent)
 	{
 		_presentationIterator = null;
 		_slideViewComponent = slideViewComponent;
@@ -23,7 +24,7 @@ public class NextSlideCommand implements ICommand, CommandEventListener<SlideIte
 	{
 		if(_presentationIterator != null)
 		{
-			IPresentation slide = _presentationIterator.nextSlide();
+			IPresentation slide = _presentationIterator.prevSlide();
 			_slideViewComponent.update(slide, _presentationIterator.getCurrentSlideNumber());
 		}
 	}
